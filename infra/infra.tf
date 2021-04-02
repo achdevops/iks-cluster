@@ -3,12 +3,16 @@ provider "ibm" {
   generation = 2
 }
 
-data "ibm_resource_group" "resource_group" {
-  name = var.resource_group
+resource "ibm_resource_group" "resource_group" {
+  name = var.rg
 }
 
 resource "ibm_is_vpc" "vpc" {
   name = "vpc-nv"
+
+  depends_on = [
+    ibm_resource_group.resource_group
+  ]
 }
 
 resource "ibm_is_vpc_routing_table" "rt" {
@@ -97,7 +101,7 @@ resource "ibm_container_vpc_cluster" "cluster" {
   kube_version      = var.kube_version
   flavor            = var.flavor
   worker_count      = var.worker_count
-  resource_group_id = data.ibm_resource_group.resource_group.id
+  resource_group_id = ibm_resource_group.resource_group.id
 
   zones {
     subnet_id = ibm_is_subnet.subnet.id
@@ -112,6 +116,10 @@ resource "ibm_resource_instance" "cos_instance" {
   service  = "cloud-object-storage"
   plan     = "standard"
   location = "global"
+
+  depends_on = [
+    ibm_resource_group.resource_group
+  ]
 }
 
 resource "ibm_container_bind_service" "bind_service" {
@@ -124,4 +132,3 @@ resource "ibm_container_bind_service" "bind_service" {
 data "ibm_container_cluster_config" "cluster_config" {
   cluster_name_id = ibm_container_vpc_cluster.cluster.id
 }
-

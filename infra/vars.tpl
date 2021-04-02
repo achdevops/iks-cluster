@@ -1,8 +1,9 @@
 # cluster deployment vars
 
-resource_group = "Default"
-service_instance_name = "my-svc"
+rg = "nvlabs"
+service_instance_name = "nvlabs"
 cluster_name = "labs-iks"
+#ibm_key = ""
 
 # k8s cluster resoruce conf
 flavor = "bx2.2x8"

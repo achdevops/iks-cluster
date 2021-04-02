@@ -3,6 +3,8 @@ variable "flavor" {
 
 }
 
+#variable "ibm_key" {}
+
 variable "worker_count" {
   default = "1"
 }
@@ -11,7 +13,7 @@ variable "zone" {
   default = "us-south-1"
 }
 
-variable "resource_group" {
+variable "rg" {
   default = "Default"
 }
 
@@ -30,7 +32,6 @@ variable "service_instance_name" {
 variable "cluster_name" {
   default = "iks"
 }
-
 
 variable "kube_version" {
   default = "1.18.15"
